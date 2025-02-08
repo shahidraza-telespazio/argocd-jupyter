@@ -1,23 +1,23 @@
 hub:
   baseUrl: /notebooks
   config:
-    JupyterHub:
-      authenticator_class: generic-oauth
-    Authenticator:
-      auto_login: true
-      enable_auth_state: true
-      allow_all: true
-      # GenericOAuthenticator params are injected by hub-secret-overrides, otherwise
-      # templating cannot be used (template params in secrets are hashed)
-      GenericOAuthenticator:
-        authorize_url: https://dev.eodatahub.org.uk/keycloak/realms/eodhp/protocol/openid-connect/auth
-        token_url: https://dev.eodatahub.org.uk/keycloak/realms/eodhp/protocol/openid-connect/token
-        oauth_callback_url: https://workspaces.dev.eodhp.eco-ke-staging.com/notebooks/hub/oauth_callback
-        userdata_url: https://dev.eodatahub.org.uk/keycloak/realms/eodhp/protocol/openid-connect/userinfo
-        client_id: jupyter
-        client_secret: onWqrHLUxtPr0zTX2vlyGVQYO1GXpQOV
-        username_claim: preferred_username
-        # scopes: ["openid profile workspaces"]
+    # JupyterHub:
+    #   authenticator_class: generic-oauth
+    # Authenticator:
+    #   auto_login: true
+    #   enable_auth_state: true
+    #   allow_all: true
+    #   # GenericOAuthenticator params are injected by hub-secret-overrides, otherwise
+    #   # templating cannot be used (template params in secrets are hashed)
+    #   GenericOAuthenticator:
+    #     authorize_url: https://dev.eodatahub.org.uk/keycloak/realms/eodhp/protocol/openid-connect/auth
+    #     token_url: https://dev.eodatahub.org.uk/keycloak/realms/eodhp/protocol/openid-connect/token
+    #     oauth_callback_url: https://workspaces.dev.eodhp.eco-ke-staging.com/notebooks/hub/oauth_callback
+    #     userdata_url: https://dev.eodatahub.org.uk/keycloak/realms/eodhp/protocol/openid-connect/userinfo
+    #     client_id: jupyter
+    #     client_secret: onWqrHLUxtPr0zTX2vlyGVQYO1GXpQOV
+    #     username_claim: preferred_username
+    # scopes: ["openid profile workspaces"]
   # existingSecret: hub-secret-overrides
 proxy:
   service:
