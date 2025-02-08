@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jupyter
+  annotations:
+    nginx.org/mergeable-ingress-type: minion
+    nginx.org/location-snippets: |
+      include blocks/header_guards.conf;
+
+      proxy_set_header Authorization $auth_header;
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: ${[.vars.workspaces.domain]}
+      http:
+        paths:
+          - path: /notebooks
+            pathType: Prefix
+            backend:
+              service:
+                name: proxy-public
+                port:
+                  name: http
