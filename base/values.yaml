@@ -2,12 +2,10 @@ hub:
   baseUrl: /notebooks
   extraConfig:
     00-kubespawner-namespaces: |
-      # Enable per-user namespaces: when a user logs in, a new namespace is created
-      # using the template below. For example, if a user logs in as "alice",
-      # the namespace "alice" will be created.
+      # Enable per-user namespaces. When a user logs in,
+      # the {username} placeholder is replaced with their login name.
       c.KubeSpawner.enable_user_namespaces = True
       c.KubeSpawner.user_namespace_template = "{username}"
-      # The hub_connect_url should point to the hub's internal service address.
       c.KubeSpawner.hub_connect_url = "http://hub.jupyter.svc.cluster.local:8081"
 
 proxy:
@@ -18,9 +16,9 @@ singleuser:
   image:
     name: "quay.io/jupyter/datascience-notebook"
     tag: "r-4.3.3"
-  # In static mode, the PVC referenced here must exist in the hub namespace.
   storage:
     type: static
+    # When using static storage mode, the PVC "user-home-pvc" must be pre-created.
     homeMountPath: /home/{username}
     static:
       pvcName: user-home-pvc
