@@ -24,8 +24,6 @@ singleuser:
     dynamic:
       # The storage class must support dynamic provisioning. In minikube, this is usually "standard".
       storageClass: standard
-      # The size allocated per user
-      capacity: 10Gi
       # A naming template to generate the PVC name.
       # {username} is replaced by the user's login name and {servername} by the spawned server name.
       pvcNameTemplate: claim-{username}--{servername}
