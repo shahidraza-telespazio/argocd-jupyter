@@ -55,12 +55,12 @@ singleuser:
     - display_name: "Data Science (Python)"
       description: "Standard Python DS environment."
       default: true
-    - display_name: "R Environment"
-      description: "Jupyter with R kernel."
+    - display_name: "Jupyter/Base-notebook"
+      description: "jupyter/base-notebook adds base Jupyter Applications like JupyterLab, Jupyter Notebook, JupyterHub, and NBClassic and serves as the basis for all other stacks besides jupyter/docker-stacks-foundation."
       kubespawner_override:
         image:
-          name: "quay.io/jupyter/r-notebook"
-          tag: "notebook-7.3.2"
+          name: "quay.io/jupyter/base-notebook"
+          tag: "lab-4.3.5"
     - display_name: "Julia Environment"
       description: "Julia environment."
       kubespawner_override:
