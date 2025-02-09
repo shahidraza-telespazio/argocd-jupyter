@@ -2,10 +2,11 @@ hub:
   baseUrl: /notebooks
   extraConfig:
     00-kubespawner-namespaces: |
-      # Enable per-user namespaces. When a user logs in,
-      # the {username} placeholder is replaced with their login name.
+      # Enable per-user namespaces:
       c.KubeSpawner.enable_user_namespaces = True
+      # The new namespace will be named after the username (e.g. "shahid")
       c.KubeSpawner.user_namespace_template = "{username}"
+      # This is the internal URL that user pods use to connect back to the hub
       c.KubeSpawner.hub_connect_url = "http://hub.jupyter.svc.cluster.local:8081"
 
 proxy:
@@ -16,13 +17,18 @@ singleuser:
   image:
     name: "quay.io/jupyter/datascience-notebook"
     tag: "r-4.3.3"
+  # Use dynamic storage so that a PVC is automatically created in the user’s namespace.
   storage:
-    type: static
-    # When using static storage mode, the PVC "user-home-pvc" must be pre-created.
+    type: dynamic
     homeMountPath: /home/{username}
-    static:
-      pvcName: user-home-pvc
-      subPath: "{username}"
+    dynamic:
+      # The storage class must support dynamic provisioning. In minikube, this is usually "standard".
+      storageClass: standard
+      # The size allocated per user
+      capacity: 10Gi
+      # A naming template to generate the PVC name.
+      # {username} is replaced by the user's login name and {servername} by the spawned server name.
+      pvcNameTemplate: claim-{username}--{servername}
   profileList:
     - display_name: "Data Science (Python)"
       description: "Standard Python DS environment."
