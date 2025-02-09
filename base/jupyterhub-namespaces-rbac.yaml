@@ -1,21 +1,21 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: jupyterhub-namespaces
+  name: jupyterhub-pod-reader
 rules:
   - apiGroups: [""]
-    resources: ["namespaces"]
-    verbs: ["create", "get", "list", "watch", "delete"]
+    resources: ["pods"]
+    verbs: ["list", "watch", "get"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: jupyterhub-namespaces-binding
+  name: jupyterhub-pod-reader-binding
 subjects:
   - kind: ServiceAccount
-    name: jupyterhub
+    name: hub
     namespace: jupyter
 roleRef:
   kind: ClusterRole
-  name: jupyterhub-namespaces
+  name: jupyterhub-pod-reader
   apiGroup: rbac.authorization.k8s.io
