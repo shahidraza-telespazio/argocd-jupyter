@@ -27,3 +27,23 @@ singleuser:
       description: "Julia-based notebook environment."
       kubespawner_override:
         image: "quay.io/jupyter/julia-notebook:lab-4.3.5"
+    - display_name: "R Environment"
+      description: "R-based notebook environment."
+      kubespawner_override:
+        image: "quay.io/jupyter/r-notebook:r-4.4.2"
+    - display_name: "Scipy Environment"
+      description: "Scipy-based notebook environment."
+      kubespawner_override:
+        image: "quay.io/jupyter/scipy-notebook:python-3.12"
+    - display_name: "Tensorflow Environment"
+      description: "Tensorflow-based notebook environment."
+      kubespawner_override:
+        image: "quay.io/jupyter/tensorflow-notebook:ubuntu-24.04"
+    - display_name: "PySpark Environment"
+      description: "PySpark-based notebook environment."
+      kubespawner_override:
+        image: "quay.io/jupyter/pyspark-notebook:hub-5.2.1"
+    - display_name: "Pytorch Environment"
+      description: "Pytorch-based notebook environment."
+      kubespawner_override:
+        image: "quay.io/jupyter/pytorch-notebook:cuda11-ubuntu-24.04"
