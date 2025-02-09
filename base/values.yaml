@@ -29,8 +29,8 @@ proxy:
 
 singleuser:
   image:
-    name: "jupyter/datascience-notebook"
-    tag: "2023-08-01" # use a fixed version
+    name: "quay.io/jupyter/datascience-notebook"
+    tag: "r-4.3.3" # use a fixed version
   # Set AWS credentials for the user pod using our declarative secret.
   # extraEnv:
   #   AWS_ACCESS_KEY_ID:
