@@ -55,15 +55,15 @@ singleuser:
     - display_name: "Data Science (Python)"
       description: "Standard Python DS environment."
       default: true
-    # - display_name: "R Environment"
-    #   description: "Jupyter with R kernel."
-    #   kubespawner_override:
-    #     image:
-    #       name: "quay.io/jupyter/r-notebook"
-    #       tag: "r-4.4.2"
-    # - display_name: "jupyter/julia-noteboook"
-    #   description: "Julia environment."
-    #   kubespawner_override:
-    #     image:
-    #       name: "quay.io/jupyter/julia-notebook"
-    #       tag: "lab-4.3.5"
+    - display_name: "R Environment"
+      description: "Jupyter with R kernel."
+      kubespawner_override:
+        image:
+          name: "quay.io/jupyter/r-notebook"
+          tag: "r-4.4.2"
+    - display_name: "jupyter/julia-noteboook"
+      description: "Julia environment."
+      kubespawner_override:
+        image:
+          name: "quay.io/jupyter/julia-notebook"
+          tag: "lab-4.3.5"
