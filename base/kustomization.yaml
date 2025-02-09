@@ -4,7 +4,7 @@ namespace: jupyter
 resources:
   - namespace.yaml
   - user-home-pvc.yaml
-  - jupyterhub-namespaces-rbac.yaml # Optional: if you want to manage RBAC declaratively here
+  - jupyterhub-rbac.yaml
 helmCharts:
   - name: jupyterhub
     repo: https://hub.jupyter.org/helm-chart/

@@ -1,0 +1,42 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: jupyterhub
+rules:
+  # Allow full control of pods
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["*"]
+  # Allow creation, update, deletion, and getting of namespaces and PVCs
+  - apiGroups: [""]
+    resources: ["namespaces", "persistentvolumeclaims"]
+    verbs: ["create", "get", "delete", "update"]
+  # Allow creating, getting, updating, and deleting services, configmaps, and secrets
+  - apiGroups: [""]
+    resources: ["services", "configmaps", "secrets"]
+    verbs: ["create", "get", "delete", "update"]
+  # Allow creating, getting, and deleting ingresses (from extensions API)
+  - apiGroups: ["extensions"]
+    resources: ["ingresses"]
+    verbs: ["create", "get", "delete"]
+  # Allow getting nodes (used to check node properties)
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get"]
+  # Allow working with events
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "update", "patch", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: jupyterhub
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: jupyterhub
+subjects:
+  - kind: ServiceAccount
+    name: hub
+    namespace: jupyter
