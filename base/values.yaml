@@ -1,24 +1,69 @@
 hub:
   baseUrl: /notebooks
   # config:
-  # JupyterHub:
-  #   authenticator_class: generic-oauth
-  # Authenticator:
-  #   auto_login: true
-  #   enable_auth_state: true
-  #   allow_all: true
-  #   # GenericOAuthenticator params are injected by hub-secret-overrides, otherwise
-  #   # templating cannot be used (template params in secrets are hashed)
-  #   GenericOAuthenticator:
-  #     authorize_url: https://dev.eodatahub.org.uk/keycloak/realms/eodhp/protocol/openid-connect/auth
-  #     token_url: https://dev.eodatahub.org.uk/keycloak/realms/eodhp/protocol/openid-connect/token
-  #     oauth_callback_url: https://workspaces.dev.eodhp.eco-ke-staging.com/notebooks/hub/oauth_callback
-  #     userdata_url: https://dev.eodatahub.org.uk/keycloak/realms/eodhp/protocol/openid-connect/userinfo
-  #     client_id: jupyter
-  #     client_secret: onWqrHLUxtPr0zTX2vlyGVQYO1GXpQOV
-  #     username_claim: preferred_username
-  # scopes: ["openid profile workspaces"]
-  # existingSecret: hub-secret-overrides
+  #   JupyterHub:
+  #     authenticator_class: generic-oauth
+  #   Authenticator:
+  #     auto_login: true
+  #     enable_auth_state: true
+  #     allow_all: true
+  #     GenericOAuthenticator:
+  #       authorize_url: https://dev.eodatahub.org.uk/keycloak/realms/eodhp/protocol/openid-connect/auth
+  #       token_url: https://dev.eodatahub.org.uk/keycloak/realms/eodhp/protocol/openid-connect/token
+  #       oauth_callback_url: https://workspaces.dev.eodhp.eco-ke-staging.com/notebooks/hub/oauth_callback
+  #       userdata_url: https://dev.eodatahub.org.uk/keycloak/realms/eodhp/protocol/openid-connect/userinfo
+  #       client_id: jupyter
+  #       # Instead of storing client_secret inline, use a Kubernetes secret via extraConfig.
+  #       # The following example injects the client secret from a secret named "oidc-secret".
+  #       client_secret: PLACEHOLDER
+  #       username_claim: preferred_username
+  # # Instead of using existingSecret inline, we can inject sensitive values via a separate secret.
+  # extraConfig:
+  #   oidc_secrets.py: |
+  #     import os
+  #     # Pull the client_secret from an environment variable set from a Kubernetes Secret.
+  #     c.GenericOAuthenticator.client_secret = os.environ.get('OIDC_CLIENT_SECRET')
 proxy:
   service:
     type: ClusterIP
+
+singleuser:
+  image:
+    name: "jupyter/datascience-notebook"
+    tag: "2023-08-01" # use a fixed version
+  # Set AWS credentials for the user pod using our declarative secret.
+  # extraEnv:
+  #   AWS_ACCESS_KEY_ID:
+  #     valueFrom:
+  #       secretKeyRef:
+  #         name: aws-credentials
+  #         key: access_key_id
+  #   AWS_SECRET_ACCESS_KEY:
+  #     valueFrom:
+  #       secretKeyRef:
+  #         name: aws-credentials
+  #         key: secret_access_key
+  #   AWS_DEFAULT_REGION: "us-east-1"
+  storage:
+    type: static
+    homeMountPath: /home/{username}
+    static:
+      pvcName: user-home-pvc
+      subPath: "{username}"
+  # Multiple profiles allow users to choose different images.
+  profileList:
+    - display_name: "Data Science (Python)"
+      description: "Standard Python DS environment."
+      default: true
+    # - display_name: "R Environment"
+    #   description: "Jupyter with R kernel."
+    #   kubespawner_override:
+    #     image:
+    #       name: "quay.io/jupyter/r-notebook"
+    #       tag: "r-4.4.2"
+    # - display_name: "jupyter/julia-noteboook"
+    #   description: "Julia environment."
+    #   kubespawner_override:
+    #     image:
+    #       name: "quay.io/jupyter/julia-notebook"
+    #       tag: "lab-4.3.5"
