@@ -1,0 +1,21 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: jupyterhub-namespaces
+rules:
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["create", "get", "list", "watch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: jupyterhub-namespaces-binding
+subjects:
+  - kind: ServiceAccount
+    name: jupyterhub
+    namespace: jupyter
+roleRef:
+  kind: ClusterRole
+  name: jupyterhub-namespaces
+  apiGroup: rbac.authorization.k8s.io
