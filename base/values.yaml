@@ -61,7 +61,7 @@ singleuser:
         image:
           name: "quay.io/jupyter/r-notebook"
           tag: "notebook-7.3.2"
-    - display_name: "jupyter/julia-noteboook"
+    - display_name: "Julia Environment"
       description: "Julia environment."
       kubespawner_override:
         image:
